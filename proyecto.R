@@ -1,8 +1,10 @@
-#setwd("./data")
+setwd("./data")
 sample_sub <- read.csv("sample_submission.csv")
 train <- read.csv("training_ratings_for_kaggle_comp.csv")
 mov <- readLines("movies.dat")
 usr <- readLines("users.dat")
+
+library("stringr")
 
 
 usr2 <- unlist(strsplit(usr,"::"))
@@ -14,11 +16,18 @@ df.user$ocupacion <- usr2[seq(from = 4, to = length(usr2), by =5 )]
 df.user$zip.code <- usr2[seq(from = 5, to = length(usr2), by =5 )]
 
 
-#MovieID::Title::Genres
+# MovieID::Title::Genres
 mov <- unlist(strsplit(mov,"::"))
 id <- mov[seq(from = 1, to = length(mov), by =3 )]
 df.movie <- as.data.frame(id)
 df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
+
+# create feature year from the title
+year <- gsub("\\D", "", df.movie$title)
+year <- str_sub(year, start = -4)
+df.movie$year <- year
+
+
 df.movie$generos <-  mov[seq(from = 3, to = length(mov), by =3 )]
 df.movie$action <- rep(0,length(df.movie$id))
 df.movie$adventure <- rep(0,length(df.movie$id))
@@ -29,27 +38,70 @@ df.movie$crime <- rep(0,length(df.movie$id))
 df.movie$documentary <- rep(0,length(df.movie$id))
 df.movie$drama <- rep(0,length(df.movie$id))
 df.movie$fantasy <- rep(0,length(df.movie$id))
-df.movie$film-noir <- rep(0,length(df.movie$id))
+df.movie$film_noir <- rep(0,length(df.movie$id))
 df.movie$horror <- rep(0,length(df.movie$id))
 df.movie$musical <- rep(0,length(df.movie$id))
 df.movie$mystery <- rep(0,length(df.movie$id))
 df.movie$romance <- rep(0,length(df.movie$id))
-df.movie$sci-fi <- rep(0,length(df.movie$id))
+df.movie$sci_fi <- rep(0,length(df.movie$id))
 df.movie$thriller <- rep(0,length(df.movie$id))
 df.movie$war <- rep(0,length(df.movie$id))
 df.movie$western <- rep(0,length(df.movie$id))
 
 
+#Action
+df.movie$action[grepl("(Action)", df.movie$generos)] =  as.character(1)
 
-generos <-  mov[seq(from = 3, to = length(mov), by =3 )]
-generos <- unlist(strsplit(generos,"|",fixed = TRUE))
-generos <- as.factor(generos)
-levels(generos)
+#Adventure
+df.movie$adventure[grepl("(Adventure)", df.movie$generos)] =  as.character(1)
 
-# supongo q habrá que hacer un ciclo con expresiones regulares
-# para ir llenando el df , la columna genero hay q eliminarla pero
-# se las deje para que la vieran xD
+#animation
+df.movie$animation[grepl("(Animation)", df.movie$generos)] =  as.character(1)
 
+#children
+df.movie$children[grepl("(Children's)", df.movie$generos)] =  as.character(1)
+
+#comedy
+df.movie$comedy[grepl("(Comedy)", df.movie$generos)] =  as.character(1)
+
+#crime
+df.movie$crime[grepl("(Crime)", df.movie$generos)] =  as.character(1)
+
+#documentary
+df.movie$documentary[grepl("(Documentary)", df.movie$generos)] =  as.character(1)
+
+#drama
+df.movie$drama[grepl("(Drama)", df.movie$generos)] =  as.character(1)
+
+#fantasy
+df.movie$fantasy[grepl("(Fantasy)", df.movie$generos)] =  as.character(1)
+
+#film-noir
+df.movie$film_noir[grepl("(Film-Noir)", df.movie$generos)] =  as.character(1)
+
+#Horror
+df.movie$horror[grepl("(Horror)", df.movie$generos)] =  as.character(1)
+
+#musical
+df.movie$musical[grepl("(Musical)", df.movie$generos)] =  as.character(1)
+
+#mystery
+df.movie$mystery[grepl("(Mystery)", df.movie$generos)] =  as.character(1)
+
+#romance
+df.movie$romance[grepl("(Romance)", df.movie$generos)] =  as.character(1)
+
+#sci-fi
+df.movie$sci_fi[grepl("(Sci-Fi)", df.movie$generos)] =  as.character(1)
+
+#thriller
+df.movie$thriller[grepl("(Thriller)", df.movie$generos)] =  as.character(1)
+
+#war
+df.movie$war[grepl("(War)", df.movie$generos)] =  as.character(1)
+
+#western
+df.movie$western[grepl("(Western)", df.movie$generos)] =  as.character(1)
 
 
 
