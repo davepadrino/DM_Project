@@ -1,12 +1,11 @@
-setwd("/data")
-sample_sub <- read.csv("sample_submission.csv")
-train <- read.csv("training_ratings_for_kaggle_comp.csv")
-movies <- readLines("movies.dat")
-usr <- readLines("users.dat")
-
+# setwd("data")
 library("stringr")
+sample_sub <- read.csv("data/sample_submission.csv")
+train <- read.csv("data/training_ratings_for_kaggle_comp.csv")
+movies <- readLines("data/movies.dat")
+usr <- readLines("data/users.dat")
 
-
+# Creating a DF with user's Info
 usr2 <- unlist(strsplit(usr,"::"))
 id <- usr2[seq(from = 1, to = length(usr2), by =5 )]
 df.user <- as.data.frame(id)
@@ -14,7 +13,6 @@ df.user$sexo <- usr2[seq(from = 2, to = length(usr2), by =5 )]
 df.user$age <- usr2[seq(from = 3, to = length(usr2), by =5 )]
 df.user$ocupacion <- usr2[seq(from = 4, to = length(usr2), by =5 )]
 df.user$zip.code <- usr2[seq(from = 5, to = length(usr2), by =5 )]
-
 
 # MovieID::Title::Genres
 mov <- unlist(strsplit(movies,"::"))
