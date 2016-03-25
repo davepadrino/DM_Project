@@ -1,4 +1,6 @@
 # setwd("data")
+# Sys.setlocale('LC_ALL','en_GB.UTF-8')
+Sys.setlocale(locale="C")
 library("stringr")
 sample_sub <- read.csv("data/sample_submission.csv")
 train <- read.csv("data/training_ratings_for_kaggle_comp.csv")
