@@ -28,7 +28,7 @@ year <- str_sub(year, start = -4)
 df.movie$year <- year
 
 # delete the (year) from tittle (optional)
-#df.movie$title <- str_sub(df.movie$title, start = 0 , end = -7)
+## df.movie$title <- str_sub(df.movie$title, start = 0 , end = -7)
 
 df.movie$generos <-  mov[seq(from = 3, to = length(mov), by =3 )]
 df.movie$action <- rep(0,length(df.movie$id))
@@ -104,6 +104,33 @@ df.movie$war[grepl("(War)", df.movie$generos)] =  as.character(1)
 
 ## Western
 df.movie$western[grepl("(Western)", df.movie$generos)] =  as.character(1)
+
+
+# Delete mixid column
+train.new <- train[-4]
+
+# take a random sample of size 50 from a dataset train 
+# sample without replacement
+train.sample <- train.new[sample(1:nrow(train.new), 200, replace=FALSE),]
+# plot(train.sample)
+# scale(train[-4])
+
+# testing k-means with 5 centroids
+k.means <- kmeans(train.sample, centers = 5)
+plot(train.sample$user, train.sample$movie, col= k.means$cluster)
+# Setting the points
+points(k.means$centers[, c("user", "movie")],
+       col=1:5,
+       pch = 19,
+       cex = 2)
+# TERRIBLE :(
+
+## Selecting a recommendation method
+
+
+
+
+
 
 
 
