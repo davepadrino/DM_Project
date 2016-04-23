@@ -3,15 +3,15 @@ Data Mining Project: Music Recomendator
 
 # Tasks
 
-## 1 - Take a correct number of rows to make a good sampling (i take a sample of 200 )
+## 1 - M??tricas de similaridad
 
-## 2 - Using kmeans we must apply a bucle to find the better number of centers (i try with 5)
+## 2 - K-Vecinos
 
-## 3 - Select an algorithm to make clusters based in age, ocupation or gender (i used kmeans to user and movies)
+## 3 - Predicciones
 
-## 4 - Apply predictive method to make the recommendation
+## 4 - Recomendaciones
 
-
+http://jarroba.com/sistemas-de-recomendacion-basados-en-filtrado-colaborativo-k-vecinos/
 https://inclass.kaggle.com/c/movie-recommendation/data
 
  # Good to see

@@ -106,8 +106,37 @@ df.movie$war[grepl("(War)", df.movie$generos)] =  as.character(1)
 df.movie$western[grepl("(Western)", df.movie$generos)] =  as.character(1)
 
 
-# Delete mixid column
+## Deleting last column
 train.new <- train[-4]
+
+# head(train.new[train.new$movie == 3952, ])
+
+## Creating a new DF
+df.train <- data.frame(matrix(ncol = nrow(df.movie), nrow = nrow(df.user)))
+
+## Setting columns as movies id
+colnames(df.train) <- df.movie$id
+
+
+## fill dataframe with ratings between users and movies in train.new
+for (i in 1:nrow(train.new)){
+  df.row <- train.new[i,]$user #rows as a sequence of rows
+  df.colu <- as.character(train.new[i,]$movie) # convert movies ids into char
+  df.train[df.row, df.colu] <- train.new[i,]$rating # assign rating to a tuple (user_id, movie_id)
+}
+
+# Now we have a big dataframe sparse matriz-like, simillar to the one we need to make collaborative filtering
+
+
+
+
+
+
+
+
+
+
+
 
 # take a random sample of size 50 from a dataset train 
 # sample without replacement
@@ -123,7 +152,6 @@ points(k.means$centers[, c("user", "movie")],
        col=1:5,
        pch = 19,
        cex = 2)
-# TERRIBLE :(
 
 ## Selecting a recommendation method
 
