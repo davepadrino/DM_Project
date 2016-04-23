@@ -127,7 +127,7 @@ for (i in 1:nrow(train.new)){
 
 # Now we have a big dataframe sparse matriz-like, simillar to the one we need to make collaborative filtering
 
-
+write.csv(df.train, file = "sparse.csv")
 
 
 

@@ -3,7 +3,7 @@ Data Mining Project: Music Recomendator
 
 # Tasks
 
-## 1 - M??tricas de similaridad
+## 1 - Metricas de similaridad
 
 ## 2 - K-Vecinos
 
