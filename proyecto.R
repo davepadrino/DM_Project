@@ -7,6 +7,17 @@ train <- read.csv("data/training_ratings_for_kaggle_comp.csv")
 movies <- readLines("data/movies.dat")
 usr <- readLines("data/users.dat")
 
+install = function(pkg){
+  # Si ya está instalado, no lo instala.
+  if (!require(pkg, character.only = TRUE)) {
+    install.packages(pkg, repos = "http:/cran.rstudio.com")
+    if (!require(pkg, character.only = TRUE)) stop(paste("load failure:", pkg))
+  }
+}
+install("recommenderlab")
+library("recommenderlab")
+
+
 # Creating a DF with user's Info
 usr2 <- unlist(strsplit(usr,"::"))
 id <- usr2[seq(from = 1, to = length(usr2), by =5 )]
