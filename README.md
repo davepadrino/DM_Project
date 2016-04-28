@@ -20,3 +20,5 @@ https://inclass.kaggle.com/c/movie-recommendation/data
  http://www.r-bloggers.com/recommendation-systems-in-r/
  revoscaler package cran
  
+# Bibliotecas usadas:
+__recommenderlab__
