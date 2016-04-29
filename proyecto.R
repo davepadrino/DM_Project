@@ -1,4 +1,4 @@
-# setwd("data")
+setwd("C:/Users/Alex/Documents/R/ProyMin/DM_Project")
 # Sys.setlocale('LC_ALL','en_GB.UTF-8')
 Sys.setlocale(locale="C")
 library("stringr")
@@ -15,7 +15,8 @@ install = function(pkg){
   }
 }
 install("recommenderlab")
-library("recommenderlab")
+#library("recommenderlab")
+
 
 
 # Creating a DF with user's Info
@@ -116,61 +117,38 @@ df.movie$war[grepl("(War)", df.movie$generos)] =  as.character(1)
 ## Western
 df.movie$western[grepl("(Western)", df.movie$generos)] =  as.character(1)
 
-
 ## Deleting last column
 train.new <- train[-4]
 
-# head(train.new[train.new$movie == 3952, ])
 
-## Creating a new DF
-df.train <- data.frame(matrix(ncol = nrow(df.movie), nrow = nrow(df.user)))
-
-## Setting columns as movies id
-colnames(df.train) <- df.movie$id
-
-
-## fill dataframe with ratings between users and movies in train.new
-for (i in 1:nrow(train.new)){
-  df.row <- train.new[i,]$user #rows as a sequence of rows
-  df.colu <- as.character(train.new[i,]$movie) # convert movies ids into char
-  df.train[df.row, df.colu] <- train.new[i,]$rating # assign rating to a tuple (user_id, movie_id)
-}
-
-# Now we have a big dataframe sparse matriz-like, simillar to the one we need to make collaborative filtering
-
-write.csv(df.train, file = "sparse.csv")
-
-
-
+# 
+# ## Creating a new DF
+# df.train <- data.frame(matrix(ncol = length(unique(train$movie)),nrow = length(unique(train$user))))
+# 
+# ## Setting columns as movies id
+# colnames(df.train) <- unique(train.new$movie)
+# rownames(df.train) <- unique(train$user)
+# 
+# ## fill dataframe with ratings between users and movies in train.new
+# # for (i in 1:nrow(train.new)){
+# #   df.row <- as.character(train.new[i,]$user) #rows as a sequence of rows
+# #   df.colu <- as.character(train.new[i,]$movie) # convert movies ids into char
+# #   df.train[df.row, df.colu] <- train.new[i,]$rating # assign rating to a tuple (user_id, movie_id)
+# # }
+# # Now we have a big dataframe sparse matriz-like, simillar to the one we need
+# # to make collaborative filtering
+# 
+# # write.csv(df.train, file = "sparse.csv")
+df.train <- read.csv("data/sparse.csv")
 
 
+train.sample <- df.train[sample(1:nrow(df.train), 200, replace=FALSE),]
 
+ds.matrix <- as.matrix(train.sample)
 
+distancia <- dist(x = ds.matrix , method = "euclidean")
 
-
-
-# take a random sample of size 50 from a dataset train 
-# sample without replacement
-train.sample <- train.new[sample(1:nrow(train.new), 200, replace=FALSE),]
-# plot(train.sample)
-# scale(train[-4])
-
-# testing k-means with 5 centroids
-k.means <- kmeans(train.sample, centers = 5)
-plot(train.sample$user, train.sample$movie, col= k.means$cluster)
-# Setting the points
-points(k.means$centers[, c("user", "movie")],
-       col=1:5,
-       pch = 19,
-       cex = 2)
-
-## Selecting a recommendation method
-
-
-
-
-
-
+distancia
 
 
 
