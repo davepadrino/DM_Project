@@ -1,4 +1,3 @@
-setwd("C:/Users/Alex/Documents/R/ProyMin/DM_Project")
 # Sys.setlocale('LC_ALL','en_GB.UTF-8')
 Sys.setlocale(locale="C")
 library("stringr")
@@ -17,8 +16,6 @@ install = function(pkg){
   }
 }
 install("recommenderlab")
-#library("recommenderlab")
-
 
 
 # Creating a DF with user's Info

@@ -3,6 +3,10 @@ Data Mining Project: Music Recomendator
 
 # Tasks
 
+## Reducir la matriz
+
+## definir una forma de seleccionar sample y test
+
 ## 1 - Metricas de similaridad
 
 ## 2 - K-Vecinos
