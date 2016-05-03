@@ -9,7 +9,7 @@ usr <- readLines("data/users.dat")
 
 
 install = function(pkg){
-  # Si ya está instalado, no lo instala.
+  # Si ya est?? instalado, no lo instala.
   if (!require(pkg, character.only = TRUE)) {
     install.packages(pkg, repos = "http:/cran.rstudio.com")
     if (!require(pkg, character.only = TRUE)) stop(paste("load failure:", pkg))
@@ -43,6 +43,13 @@ df.train  <- dcast(train, user ~ movie)
 df.train <- sapply(data.frame(df.train), as.numeric)
 
 # Convirtiendo en una matriz especial de la biblioteca
-train.matriz <- as(df.train, "realRatingMatrix")
+train.RatingMatrix <- as(as.matrix(df.train), "realRatingMatrix")
 
-signature(from = "matrix", to = "realRatingMatrix")
+# Normalizar la matrix
+norm <- train.RatingMatrix
+
+ # dudas
+rec=Recommender(train.RatingMatrix[1:nrow(train.RatingMatrix)],method="UBCF", param=list(normalize = "Z-score",method="Cosine",nn=5, minRating=1))
+rec=Recommender(train.RatingMatrix[1:nrow(train.RatingMatrix)],method="UBCF", param=list(normalize = "Z-score",method="Jaccard",nn=5, minRating=1))
+rec=Recommender(r[1:nrow(r)],method="IBCF", param=list(normalize = "Z-score",method="Jaccard",minRating=1))
+rec=Recommender(train.RatingMatrix[1:nrow(train.RatingMatrix)],method="POPULAR")
