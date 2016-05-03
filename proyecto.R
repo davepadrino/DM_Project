@@ -40,4 +40,9 @@ train$id <- NULL
 
 # esta es la matriz dispersa que usaremos 
 df.train  <- dcast(train, user ~ movie)
+df.train <- sapply(data.frame(df.train), as.numeric)
 
+# Convirtiendo en una matriz especial de la biblioteca
+train.matriz <- as(df.train, "realRatingMatrix")
+
+signature(from = "matrix", to = "realRatingMatrix")
