@@ -38,5 +38,6 @@ df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 train$id <- NULL
 
 
-# esta es la matriz que usaremos 
+# esta es la matriz dispersa que usaremos 
 df.train  <- dcast(train, user ~ movie)
+
