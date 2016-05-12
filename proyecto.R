@@ -59,17 +59,6 @@ train.RatingMatrix <- as(as.matrix(df.train), "realRatingMatrix")
 as(train.RatingMatrix, "matrix")
 as(train.RatingMatrix, "list")
 
-# Normalizar la matrix
-r_m <- normalize(train.RatingMatrix)
-as(r_m, "list")
-
-
-image(train.RatingMatrix, main = "Raw Ratings")       
-image(r_m, main = "Normalized Ratings")
-
-# Can also turn the matrix into a 0-1 binary matrix
-r_b <- binarize(train.RatingMatrix, minRating=1)
-as(r_b, "list")
 
 # Arguments are n and minRating. Items with a rating below minRating will not be part of the top-N list.
 # n N (number of recommendations) of the top-N lists generated (only if type="topNList")
