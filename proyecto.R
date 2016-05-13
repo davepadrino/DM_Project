@@ -54,7 +54,7 @@ df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 
 
 # esta es la matriz dispersa que usaremos 
-df.train  <- dcast(training, user ~ movie)
+df.train  <- acast(training, user ~ movie)
 df.train <- sapply(data.frame(df.train), as.numeric)
 
 # Convirtiendo en una matriz especial de la biblioteca
@@ -77,8 +77,11 @@ load("data/recom.RData")
 # recom <- predict(rec, train.RatingMatrix[1:nrow(train.RatingMatrix)], type="ratings")
 # save(recom, file="recom.RData")
 
+# a <- as(recom,"matrix")
+# a <- as.data.frame(a)
+# View(a) 
 
-
+ #write.csv(a,"scores.csv")
 
 
 
