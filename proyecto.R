@@ -5,11 +5,15 @@ Sys.setlocale(locale="C")
 library("stringr")
 library("reshape2")
 library("recommenderlab")
-library(shiny)
-sample_sub <- read.csv("data/sample_submission.csv")
-train <- read.csv("data/training_ratings_for_kaggle_comp.csv")
+library("shiny")
+train <- read.csv("data/ratings_for_kaggle_comp.csv")
 movies <- readLines("data/movies.dat")
 usr <- readLines("data/users.dat")
+training <- read.csv("data/training.csv")
+testing <- read.csv("data/testing.csv")
+
+
+
 
 
 # Creating a DF with user's Info
@@ -28,25 +32,25 @@ df.movie <- as.data.frame(id)
 df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 
 
-# delete useless id 
-train$id <- NULL
+# # delete useless id 
+# train$id <- NULL
+# 
+# #create training & testing
+# training <- train[0,]
+# testing <- train[0,]
+# for(j in unique(train$user)){
+#   aux <- train[train$user == j, ]
+#   sampl <-  sample(nrow(aux), floor(nrow(aux) * 0.70))
+#   aux.training <- aux[sampl, ]
+#   aux.testing  <- aux[-sampl, ]
+#   training <- rbind(training, aux.training )
+#   testing <- rbind(testing,aux.testing)
+# }
+# dim(training)
+# dim(testing)
+#write.csv(training,file="data/training.csv")
+#write.csv(testing,file="data/testing.csv")
 
-#create training & testing
-training <- train[0,]
-testing <- train[0,]
-for(j in unique(train$user)){
-  aux <- train[train$user == j, ]
-  sampl <-  sample(nrow(aux), floor(nrow(aux) * 0.70))
-  aux.training <- aux[sampl, ]
-  aux.testing  <- aux[-sampl, ]
-  training <- rbind(training, aux.training )
-  testing <- rbind(testing,aux.testing)
-}
-dim(training)
-dim(testing)
-
-length(unique(training$user))
-length(unique(testing$user))
 
 
 # esta es la matriz dispersa que usaremos 
@@ -56,8 +60,8 @@ df.train <- sapply(data.frame(df.train), as.numeric)
 # Convirtiendo en una matriz especial de la biblioteca
 train.RatingMatrix <- as(as.matrix(df.train), "realRatingMatrix")
 
-as(train.RatingMatrix, "matrix")
-as(train.RatingMatrix, "list")
+#as(train.RatingMatrix, "matrix")
+#as(train.RatingMatrix, "list")
 
 
 # Arguments are n and minRating. Items with a rating below minRating will not be part of the top-N list.
@@ -68,8 +72,13 @@ print(rec)
 names(getModel(rec))
 getModel(rec)$nn
 
-recom <- predict(rec, train.RatingMatrix[1:nrow(train.RatingMatrix)], type="ratings")
-recom
+
+load("data/recom.RData")
+# recom <- predict(rec, train.RatingMatrix[1:nrow(train.RatingMatrix)], type="ratings")
+# save(recom, file="recom.RData")
+
+
+
 
 
 
