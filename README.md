@@ -3,6 +3,7 @@ Data Mining Project: Movies Recomendator
 
 # Tasks
 ## Paper[https://www.overleaf.com/5187029vnpdrd#/16229482/]
+## Apoyo [https://www.overleaf.com/4981604cwhmyp#/15397154/]
 ## Reducir la matriz
 
 ## definir una forma de seleccionar sample y test
