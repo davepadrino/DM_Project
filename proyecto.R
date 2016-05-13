@@ -77,12 +77,15 @@ load("data/recom.RData")
 # recom <- predict(rec, train.RatingMatrix[1:nrow(train.RatingMatrix)], type="ratings")
 # save(recom, file="recom.RData")
 
-# a <- as(recom,"matrix")
-# a <- as.data.frame(a)
+ a <- as(recom,"matrix")
+ a <- as.data.frame(a)
 # View(a) 
 
  #write.csv(a,"scores.csv")
 
+ a <- sapply(a,  floor)
+ View(a) 
+ 
 
 
 ####################################
