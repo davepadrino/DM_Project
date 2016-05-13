@@ -55,7 +55,9 @@ df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 
 # esta es la matriz dispersa que usaremos 
 df.train  <- acast(training, user ~ movie)
+f <- df.movie$title[df.movie$id  %in% training$movie]
 df.train <- sapply(data.frame(df.train), as.numeric)
+
 
 # Convirtiendo en una matriz especial de la biblioteca
 train.RatingMatrix <- as(as.matrix(df.train), "realRatingMatrix")
@@ -78,14 +80,12 @@ load("data/recom.RData")
 # save(recom, file="recom.RData")
 
  a <- as(recom,"matrix")
+
  a <- as.data.frame(a)
-# View(a) 
-
- #write.csv(a,"scores.csv")
-
+ colnames(a) <- f
  a <- sapply(a,  floor)
- View(a) 
- 
+
+
 
 
 ####################################
