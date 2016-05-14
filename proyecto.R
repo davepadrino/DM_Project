@@ -83,6 +83,7 @@ load("data/recom.RData")
 
  a <- as.data.frame(a)
  colnames(a) <- f
+ #Returns a matrix
  a <- sapply(a,  floor)
 
 
