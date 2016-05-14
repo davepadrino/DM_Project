@@ -14,7 +14,13 @@ testing <- read.csv("data/testing.csv")
 
 
 
-
+# imprime los usuarios con menos de 5 películas
+# for(j in unique(train$user)){
+#   num <- length(train$movie[train$user == j])
+#   if (num < 5){
+#     print(paste("user:",j,"tiene:",num," peliculas"))
+#   } 
+# }
 
 # Creating a DF with user's Info
 usr2 <- unlist(strsplit(usr,"::"))
@@ -32,10 +38,14 @@ df.movie <- as.data.frame(id)
 df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 
 
+
+
+
 # # delete useless id 
 # train$id <- NULL
-# 
-# #create training & testing
+################################### 
+##---create training & testing---##
+###################################
 # training <- train[0,]
 # testing <- train[0,]
 # for(j in unique(train$user)){
@@ -48,28 +58,29 @@ df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 # }
 # dim(training)
 # dim(testing)
-#write.csv(training,file="data/training.csv")
-#write.csv(testing,file="data/testing.csv")
+# write.csv(training,file="data/training.csv")
+# write.csv(testing,file="data/testing.csv")
 
 
-
+testing$X <- NULL
+training$X <- NULL
 # esta es la matriz dispersa que usaremos 
 df.train  <- acast(training, user ~ movie)
 f <- df.movie$title[df.movie$id  %in% training$movie]
-df.train <- sapply(data.frame(df.train), as.numeric)
-
 
 # Convirtiendo en una matriz especial de la biblioteca
 train.RatingMatrix <- as(as.matrix(df.train), "realRatingMatrix")
+df.train <- sapply(data.frame(df.train), as.numeric)
 
-#as(train.RatingMatrix, "matrix")
-#as(train.RatingMatrix, "list")
+# as(train.RatingMatrix, "matrix")
+# as(train.RatingMatrix, "list")
 
 
 # Arguments are n and minRating. Items with a rating below minRating will not be part of the top-N list.
 # n N (number of recommendations) of the top-N lists generated (only if type="topNList")
 # to normalize and method params o the list, check the slack section "fonts"
-rec=Recommender(train.RatingMatrix[1:nrow(train.RatingMatrix)],method="UBCF", param=list(normalize = "Z-score",method="Jaccard",nn=5, minRating=1))
+rec=Recommender(train.RatingMatrix[1:nrow(train.RatingMatrix)],method="UBCF",
+                param=list(normalize = "Z-score",method="Jaccard",nn=5, minRating=1))
 print(rec)
 names(getModel(rec))
 getModel(rec)$nn
@@ -79,28 +90,46 @@ load("data/recom.RData")
 # recom <- predict(rec, train.RatingMatrix[1:nrow(train.RatingMatrix)], type="ratings")
 # save(recom, file="recom.RData")
 
- a <- as(recom,"matrix")
 
- a <- as.data.frame(a)
- colnames(a) <- f
- #Returns a matrix
- a <- sapply(a,  floor)
+a <- as(recom,"matrix")
 
-
-
-
-####################################
+a <- as.data.frame(a)
+#colnames(a) <- f
+#Returns a matrix
+a <- sapply(a,round)
 
 
-## get some information
-dimnames(train.RatingMatrix)
-rowCounts(train.RatingMatrix)
-colCounts(train.RatingMatrix)
-rowMeans(train.RatingMatrix)
+rownames(df.train) <- unique(training$user)
+rownames(a) <- unique(training$user)
 
-## histogram of ratings
-hist(getRatings(train.RatingMatrix), breaks="FD")
+# ejemplos de como acceder es
+# df.train["6040","X3735"] que da 4...
+# es importante lo " " para acceder correctamente..
 
-## inspect a subset
-image(train.RatingMatrix[1:5,1:5])
-#######################################
+
+# for(i in 1:length(testing$movie)){
+  # recorrer el testing para ir "armando el dataframe salida
+  # e el mismo formato
+  # lo haría yo ahorita pero tengo sueño xD
+#}
+
+
+
+# ####################################
+# 
+# 
+# ## get some information
+# dimnames(train.RatingMatrix)
+# rowCounts(train.RatingMatrix)
+# colCounts(train.RatingMatrix)
+# rowMeans(train.RatingMatrix)
+# 
+# ## histogram of ratings
+# hist(getRatings(train.RatingMatrix), breaks="FD")
+# 
+# ## inspect a subset
+# image(train.RatingMatrix[1:5,1:5])
+# #######################################
+
+
+
