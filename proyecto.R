@@ -13,7 +13,6 @@ training <- read.csv("data/training.csv")
 testing <- read.csv("data/testing.csv")
 
 
-
 # imprime los usuarios con menos de 5 películas
 # for(j in unique(train$user)){
 #   num <- length(train$movie[train$user == j])
@@ -95,7 +94,8 @@ a <- as(recom,"matrix")
 
 a <- as.data.frame(a)
 #colnames(a) <- f
-#Returns a matrix
+
+
 a <- sapply(a,round)
 
 
@@ -103,16 +103,22 @@ rownames(df.train) <- unique(training$user)
 rownames(a) <- unique(training$user)
 
 # ejemplos de como acceder es
-# df.train["6040","X3735"] que da 4...
-# es importante lo " " para acceder correctamente..
+# df.train["6040","X3735"]
 
 
-# for(i in 1:length(testing$movie)){
-  # recorrer el testing para ir "armando el dataframe salida
-  # e el mismo formato
-  # lo haría yo ahorita pero tengo sueño xD
-#}
+salida <- testing
+salida$rating <- 0
+for(i in 1:length(salida$movie)){
+  fila <- as.character(salida$user[i])
+  columna  <-  paste("X",salida$movie[i],sep="")
+  nulo <- a[fila,columna]
+  if(!is.null(nulo)){
+    salida$rating[i] <- a[fila,columna]
+  }
+}
 
+
+# Ahora falta comparar salida con testing
 
 
 # ####################################
@@ -130,6 +136,3 @@ rownames(a) <- unique(training$user)
 # ## inspect a subset
 # image(train.RatingMatrix[1:5,1:5])
 # #######################################
-
-
-
