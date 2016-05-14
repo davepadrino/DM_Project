@@ -13,14 +13,6 @@ training <- read.csv("data/training.csv")
 testing <- read.csv("data/testing.csv")
 
 
-# imprime los usuarios con menos de 5 películas
-# for(j in unique(train$user)){
-#   num <- length(train$movie[train$user == j])
-#   if (num < 5){
-#     print(paste("user:",j,"tiene:",num," peliculas"))
-#   } 
-# }
-
 # Creating a DF with user's Info
 usr2 <- unlist(strsplit(usr,"::"))
 id <- usr2[seq(from = 1, to = length(usr2), by =5 )]
@@ -117,6 +109,7 @@ for(i in 1:length(salida$movie)){
   }
 }
 
+salida$real <- testing$rating
 
 # Ahora falta comparar salida con testing
 
