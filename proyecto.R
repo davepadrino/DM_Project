@@ -111,8 +111,26 @@ rownames(a) <- unique(training$user)
   # recorrer el testing para ir "armando el dataframe salida
   # e el mismo formato
   # lo haría yo ahorita pero tengo sueño xD
+
 #}
 
+
+salida <- testing 
+for(i in 1:length(salida$movie)){
+  print(salida$movie)
+  fila <- as.character(salida$user[i])
+  columna  <-  paste("X",salida$movie[i],sep="")
+  salida$rating[i] <- a[fila,columna]
+}
+
+#toy probando esto
+final <- rbind(a, df.train)
+
+
+
+
+#toy probando esto
+final <- rbind(a, df.train)
 
 
 # ####################################
