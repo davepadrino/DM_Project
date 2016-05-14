@@ -4,23 +4,23 @@ library(shiny)
 shinyUI(pageWithSidebar(
   
   # Application title
-  headerPanel("Miles Per Gallon"),
+  headerPanel("Recomendador de Peliculas"),
   
-  # Sidebar with controls to select the variable to plot against mpg
-  # and to specify whether outliers should be included
+  # Sidebar with controls to select a dataset and specify the number
+  # of observations to view
   sidebarPanel(
-    selectInput("variable", "Variable:",
-                list("Cylinders" = "cyl", 
-                     "Transmission" = "am", 
-                     "Gears" = "gear")),
+    h3("Visualizar Dataset"),
+    selectInput("dataset", "Choose a dataset:", 
+                choices = c("movies", "usr")),
+    numericInput("obs", "Number of observations to view:", 10)
     
-    checkboxInput("outliers", "Show outliers", FALSE)
   ),
   
-  # Show the caption and plot of the requested variable against mpg
+  # Show a summary of the dataset and an HTML table with the requested
+  # number of observations
   mainPanel(
-    h3(textOutput("caption")),
+    verbatimTextOutput("head"),
     
-    plotOutput("mpgPlot")
+    tableOutput("view")
   )
 ))

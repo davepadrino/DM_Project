@@ -109,35 +109,9 @@ for(i in 1:length(salida$movie)){
   }
 }
 
-<<<<<<< HEAD
-# for(i in 1:length(testing$movie)){
-  # recorrer el testing para ir "armando el dataframe salida
-  # e el mismo formato
-  # lo haría yo ahorita pero tengo sueño xD
-
-#}
-=======
 salida$real <- testing$rating
->>>>>>> 20e9d73802a4463d66c992b37e7ba01668478f72
 
 # Ahora falta comparar salida con testing
-
-salida <- testing 
-for(i in 1:length(salida$movie)){
-  print(salida$movie)
-  fila <- as.character(salida$user[i])
-  columna  <-  paste("X",salida$movie[i],sep="")
-  salida$rating[i] <- a[fila,columna]
-}
-
-#toy probando esto
-final <- rbind(a, df.train)
-
-
-
-
-#toy probando esto
-final <- rbind(a, df.train)
 
 
 # ####################################
