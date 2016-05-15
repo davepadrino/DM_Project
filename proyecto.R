@@ -31,7 +31,6 @@ df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 
 
 
-
 # # delete useless id 
 # train$id <- NULL
 ################################### 
@@ -90,16 +89,13 @@ a <- as(recom,"matrix")
 a <- as.data.frame(a)
 #colnames(a) <- f
 
-a <- sapply(a,round)
+#a <- sapply(a,round)
 
 rownames(df.train) <- unique(training$user)
 rownames(a) <- unique(training$user)
 
 # ejemplos de como acceder es
 # df.train["6040","X3735"]
-t3 <- as.factor(training$movie)
-testing <- testing[testing$movie %in% levels(t3),]
-testing$X <- NULL
 
 t3 <- as.factor(training$movie)
 testing <- testing[testing$movie %in% levels(t3), ]
@@ -107,14 +103,16 @@ testing <- testing[testing$movie %in% levels(t3), ]
 asignar <- function(x){
   fila <- as.character(x[1])
   columna  <-  paste("X",x[2],sep="")
-  nulo <- a[fila,columna]
+  rating <- a[fila,columna]
   if(!is.null(nulo)){
-    x[3] <- nulo
+    x[3] <- rating
   }
   return(x)
 }
 
-salida <- t(apply(testing[1:3],1,asignar))
+salida <- apply(testing[1:3],1,asignar)
+salida <- t(salida)
+salida <- as.data.frame(salida)
 
 salida$real <- testing$rating
 
