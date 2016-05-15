@@ -82,14 +82,15 @@ load("data/recom.RData")
 # save(recom, file="recom.RData")
 
 
+#colnames(a) <- f
+
+
 a <- as(recom,"matrix")
 
 a <- as.data.frame(a)
 #colnames(a) <- f
 
-
 a <- sapply(a,round)
-
 
 rownames(df.train) <- unique(training$user)
 rownames(a) <- unique(training$user)
@@ -98,24 +99,26 @@ rownames(a) <- unique(training$user)
 # df.train["6040","X3735"]
 
 
-salida <- testing
-salida$rating <- 0
-for(i in 1:length(salida$movie)){
-  fila <- as.character(salida$user[i])
-  columna  <-  paste("X",salida$movie[i],sep="")
+t3 <- as.factor(training$movie)
+testing <- testing[testing$movie %in% levels(t3), ]
+
+asignar <- function(x){
+  fila <- as.character(x[1])
+  columna  <-  paste("X",x[2],sep="")
   nulo <- a[fila,columna]
   if(!is.null(nulo)){
-    salida$rating[i] <- a[fila,columna]
+    x[3] <- nulo
   }
+  return(x)
 }
 
-salida$real <- testing$rating
+salida <- t(apply(testing[1:3],1,asignar))
 
+salida$real <- testing$rating
 # Ahora falta comparar salida con testing
 
 
 # ####################################
-# 
 # 
 # ## get some information
 # dimnames(train.RatingMatrix)
