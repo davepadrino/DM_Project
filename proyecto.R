@@ -104,7 +104,7 @@ asignar <- function(x){
   fila <- as.character(x[1])
   columna  <-  paste("X",x[2],sep="")
   rating <- a[fila,columna]
-  if(!is.null(nulo)){
+  if(!is.null(rating)){
     x[3] <- rating
   }
   return(x)
