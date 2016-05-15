@@ -96,7 +96,9 @@ rownames(a) <- unique(training$user)
 
 # ejemplos de como acceder es
 # df.train["6040","X3735"]
-
+t3 <- as.factor(training$movie)
+testing <- testing[testing$movie %in% levels(t3),]
+testing$X <- NULL
 
 salida <- testing
 salida$rating <- 0
