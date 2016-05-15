@@ -117,6 +117,7 @@ asignar <- function(x){
 salida <- t(apply(testing[1:3],1,asignar))
 
 salida$real <- testing$rating
+
 # Ahora falta comparar salida con testing
 
 
