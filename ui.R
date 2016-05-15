@@ -11,7 +11,9 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     h3("Visualizar Dataset"),
     selectInput("dataset", "Choose a dataset:", 
-                choices = c("movies", "users","training","prediction","comparison"))
+                choices = c("movies", "users","training","prediction","comparison")),
+    selectInput("dataset", "Choose a user:", 
+                choices = seq(1:6040))
     #numericInput("obs", "Number of observations to view:", 10)
     
   ),
