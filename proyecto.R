@@ -110,7 +110,7 @@ asignar <- function(x){
   return(x)
 }
 
-tiempo.apply <- salida <- apply(testing[1:3],1,asignar)
+salida <- apply(testing[1:3],1,asignar)
 salida <- t(salida)
 salida <- as.data.frame(salida)
 
@@ -118,18 +118,27 @@ salida$real <- testing$rating
 
 
 
-
 b <- t(a)
 class(b)
 b <- as.data.frame(b)
-c <- c[]
-colnamesb <- colnames(b)
+c <- b[1:10,]
+
 for(j in colnamesb){
-  aux <- order(b[ ,j], decreasing = T)
-  c[ ,j] <- aux[1:10] 
+  b <- b[order(b[ ,j], decreasing = T), ]
+  peliculas <- rownames(b[1:10,])
+  c[ ,j] <- peliculas 
 }
-# Ahora falta comparar salida con testing
+
+nombrecol <- c(1:10)
+for(i in 1:10){
+  nombrecol[i] <- paste("peli",i,sep="")
+}
+
+nombrecol
 c <- t(c)
+colnames(c) <- nombrecol
+
+
 
 # ####################################
 # 
