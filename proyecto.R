@@ -115,13 +115,16 @@ salida <- t(salida)
 salida <- as.data.frame(salida)
 
 salida$real <- testing$rating
-
+write.csv(salida,"data/salida.csv")
+g <- read.csv("data/salida.csv")
+View(salida)
 
 colnames(a) <- f
 b <- t(a)
 class(b)
 b <- as.data.frame(b)
 c <- b[1:10,]
+
 
 for(j in colnamesb){
   b <- b[order(b[ ,j], decreasing = T), ]
@@ -138,6 +141,7 @@ nombrecol
 c <- t(c)
 colnames(c) <- nombrecol
 
+save(c, file="data/recomendacion10.RData")
 
 
 # ####################################
