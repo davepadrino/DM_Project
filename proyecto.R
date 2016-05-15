@@ -117,7 +117,7 @@ salida <- as.data.frame(salida)
 salida$real <- testing$rating
 
 
-
+colnames(a) <- f
 b <- t(a)
 class(b)
 b <- as.data.frame(b)
