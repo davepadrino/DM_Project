@@ -11,15 +11,15 @@ shinyUI(pageWithSidebar(
   sidebarPanel(
     h3("Visualizar Dataset"),
     selectInput("dataset", "Choose a dataset:", 
-                choices = c("movies", "usr")),
-    numericInput("obs", "Number of observations to view:", 10)
+                choices = c("movies", "users","comparison"))
+    #numericInput("obs", "Number of observations to view:", 10)
     
   ),
   
   # Show a summary of the dataset and an HTML table with the requested
   # number of observations
   mainPanel(
-    verbatimTextOutput("head"),
+    #verbatimTextOutput("head"),
     
     tableOutput("view")
   )
