@@ -38,6 +38,10 @@ a <- sapply(a,round)
 rownames(df.train) <- unique(training$user)
 rownames(a) <- unique(training$user)
 
+t3 <- as.factor(training$movie)
+testing <- testing[testing$movie %in% levels(t3),]
+testing$X <- NULL
+
 salida <- testing
 salida$rating <- 0
 for(i in 1:length(salida$movie)){
@@ -68,6 +72,8 @@ shinyServer(function(input, output) {
     switch(input$dataset,
            "movies" = df.movie,
            "users" = df.user,
+           "training" = df.train,
+           "prediction" = as.data.frame(a),
            "comparison" = salida)
   })
   
