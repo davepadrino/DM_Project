@@ -13,7 +13,7 @@ shinyUI(pageWithSidebar(
     selectInput("dataset", "Choose a dataset:", 
                 choices = c("movies", "users","training","prediction","comparison")),
     selectInput("dataset", "Choose a user:", 
-                choices = seq(1:6040))
+                choices = unique(training$user))
     #numericInput("obs", "Number of observations to view:", 10)
     
   ),
