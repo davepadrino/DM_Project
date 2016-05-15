@@ -22,7 +22,9 @@ df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 
 
 runApp(list(
-  ui = shinyUI(pageWithSidebar(
+  ui = pageWithSidebar(
+    
+    
     
     # Application title
     headerPanel("Recomendador de Peliculas"),
@@ -37,7 +39,7 @@ runApp(list(
                   choices = unique(training$user))
       #numericInput("obs", "Number of observations to view:", 10)
       
-    )))),
+    ),
     
     # Show a summary of the dataset and an HTML table with the requested
     # number of observations
@@ -45,6 +47,11 @@ runApp(list(
       #verbatimTextOutput("head"),
       
       tableOutput("view")
+    )
+    
+    
+    
+    
     ),
   server = function(input, output) {
     datasetInput <- reactive({
@@ -67,4 +74,4 @@ runApp(list(
       head(datasetInput(), n = 10)
     })
     }
-)
+))
