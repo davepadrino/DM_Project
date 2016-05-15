@@ -44,10 +44,15 @@ f <- df.movie$title[df.movie$id  %in% training$movie]
 # carga matriz de recomendaciones ya calculada en formato realratingmatrix
 load("data/recom.RData")
 
+# dataframe a con nombre de las peliculas
+a <- as(recom,"matrix")
+a <- as.data.frame(a)
+colnames(a) <- f
 
 # df de salida esperada en kaggle que se puede comparar con el testing 
 salida <- read.csv("data/salida.csv")
 
 
-#carga dataframe c
+# carga dataframe c que contiene 10 recomendaciones por usuario
 load("data/recomendacion10.RData")
+
