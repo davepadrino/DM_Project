@@ -110,27 +110,13 @@ asignar <- function(x){
   return(x)
 }
 
-tiempo.apply <- system.time(salida <- apply(testing[1:3],1,asignar))
+tiempo.apply <- salida <- apply(testing[1:3],1,asignar)
 salida <- t(salida)
 salida <- as.data.frame(salida)
 
 salida$real <- testing$rating
 
 
-
-
-salida2 <- testing
-salida2$rating <- 0
-tiempo.ciclo <- system.time(for(i in 1:length(salida$movie)){
-  fila <- as.character(salida2$user[i])
-  columna  <-  paste("X",salida2$movie[i],sep="")
-  nulo <- a[fila,columna]
-  if(!is.null(nulo)){
-    salida2$rating[i] <- a[fila,columna]
-  }
-}
-)
-salida2$real <- testing$rating
 
 
 b <- t(a)
