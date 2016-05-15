@@ -53,6 +53,10 @@ colnames(a) <- f
 salida <- read.csv("data/salida.csv")
 
 
+# df.train sin nombre de película
+df.train  <- acast(training, user ~ movie)
+
+
 # carga dataframe c que contiene 10 recomendaciones por usuario
 load("data/recomendacion10.RData")
 
