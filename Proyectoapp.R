@@ -73,9 +73,9 @@ runApp(list(
     # of observations to view
     sidebarPanel(
       h3("Visualizar Dataset"),
-      selectInput("dataset", "Choose a dataset:", 
-                  choices = c("movies", "users","training","prediction","comparison")),
-      selectInput("user", "Choose an user:", 
+      selectInput("dataset", "Seleccione un dataset a explorar:", 
+                  choices = c("Movies", "Users","Entrenamiento","Predicciones","Comparaciones")),
+      selectInput("user", "Seleccione un usuario a evaluar:", 
                   choices = c(unique(training$user)))
     ),
     
@@ -84,9 +84,9 @@ runApp(list(
     mainPanel(
       #verbatimTextOutput("head"),
       tabsetPanel(
-        tabPanel('Exploratory Analysis',
+        tabPanel('Analisis exploratorio de los datasets',
                  tableOutput("mytable1")),
-        tabPanel('Recomendation to user',
+        tabPanel('Recomendaciones a usuario',
                  tableOutput("mytable2"), 
                  tableOutput("mytable3"),
                  tableOutput("mytable4")
@@ -103,11 +103,11 @@ runApp(list(
   server = function(input, output) {
     datasetInput <- reactive({
       switch(input$dataset,
-             "movies" = df.movie,
-             "users" = df.user,
-             "training" = df.train,
-             "prediction" = as.data.frame(a),
-             "comparison" = salida)
+             "Movies" = df.movie,
+             "Users" = df.user,
+             "Entrenamiento" = df.train,
+             "Predicciones" = as.data.frame(a),
+             "Comparaciones" = salida)
     })
     
     
@@ -121,14 +121,14 @@ runApp(list(
     output$mytable2 <- renderTable({
       df.user[input$user,]
     },
-    caption = "User's Info")
+    caption = "Informacion del usuario")
 
     
     output$mytable3 <- renderTable({
       head(rating[rating$user == input$user,-4], 10)
       
     },
-    caption = "10 User's movie ratings"
+    caption = "10 Valoraciones de peliculas del usuario seleccionado"
     )    
     
     
@@ -136,7 +136,7 @@ runApp(list(
       c[input$user,]
       
     },
-    caption = "10 User's movie recomendations"
+    caption = "10 Recomendaciones al usuario seleccionado"
     ) 
     
     
