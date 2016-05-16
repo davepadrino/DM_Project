@@ -104,7 +104,7 @@ asignar <- function(x){
   fila <- as.character(x[1])
   columna  <-  paste("X",x[2],sep="")
   rating <- a[fila,columna]
-  if(!is.null(nulo)){
+  if(!is.null(rating)){
     x[3] <- rating
   }
   return(x)
@@ -115,8 +115,33 @@ salida <- t(salida)
 salida <- as.data.frame(salida)
 
 salida$real <- testing$rating
+write.csv(salida,"data/salida.csv")
+g <- read.csv("data/salida.csv")
+View(salida)
 
-# Ahora falta comparar salida con testing
+colnames(a) <- f
+b <- t(a)
+class(b)
+b <- as.data.frame(b)
+c <- b[1:10,]
+
+
+for(j in colnamesb){
+  b <- b[order(b[ ,j], decreasing = T), ]
+  peliculas <- rownames(b[1:10,])
+  c[ ,j] <- peliculas 
+}
+
+nombrecol <- c(1:10)
+for(i in 1:10){
+  nombrecol[i] <- paste("peli",i,sep="")
+}
+
+nombrecol
+c <- t(c)
+colnames(c) <- nombrecol
+
+save(c, file="data/recomendacion10.RData")
 
 
 # ####################################
