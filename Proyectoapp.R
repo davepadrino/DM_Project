@@ -109,10 +109,7 @@ runApp(list(
              "prediction" = as.data.frame(a),
              "comparison" = salida)
     })
-    userInput <- reactive({
-      switch(input$user,
-             c(unique(training$user)))
-    })    
+    
     
     # Generate a summary of the dataset
 
@@ -122,14 +119,27 @@ runApp(list(
     })
     
     output$mytable2 <- renderTable({
-      mydata = get(input$user)
-      #selectInput('columns2', 'Columns', names(mydata))
-      #df.user[mydata,]
-      df.user[as.integer(df.user$id == mydata),]
-
+      df.user[input$user,]
     },
     caption = "User's Info")
 
+    
+    output$mytable3 <- renderTable({
+      head(rating[rating$user == input$user,-4], 10)
+      
+    },
+    caption = "10 User's movie ratings"
+    )    
+    
+    
+    output$mytable4 <- renderTable({
+      c[input$user,]
+      
+    },
+    caption = "10 User's movie recomendations"
+    ) 
+    
+    
     
     
     }

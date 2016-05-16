@@ -113,7 +113,7 @@ runApp(list(
     })
     userInput <- reactive({
       switch(input$user,
-             unique(training$user)[1])
+             unique(training$user))
     })    
     
     # Generate a summary of the dataset
@@ -129,6 +129,22 @@ runApp(list(
     },
     caption = "User's Info")
     
+	
+	
+	    userInput <- reactive({
+      switch(input$user,
+             unique(training$user))
+      mydata = get(input$dataset)
+      selectInput('columns2', 'Columns', names(mydata))
+    })  
+	
+	
+	
+	
+	
+	
+	
+	
     
     output$mytable3 <- renderTable({
       head(rating[rating$user == userInput(),-4], 10)
