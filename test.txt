@@ -19,7 +19,7 @@ df.user$age <- usr2[seq(from = 3, to = length(usr2), by =5 )]
 df.user$ocupacion <- usr2[seq(from = 4, to = length(usr2), by =5 )]
 df.user$zip.code <- usr2[seq(from = 5, to = length(usr2), by =5 )]
 
-#no se usan más
+#no se usan mÃ¡s
 rm(usr)
 rm(usr2)
 
@@ -30,7 +30,7 @@ id <- mov[seq(from = 1, to = length(mov), by =3 )]
 df.movie <- as.data.frame(id)
 df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
 
-# no se usa más
+# no se usa mÃ¡s
 rm(movies)
 rm(mov)
 
@@ -39,7 +39,7 @@ testing$X <- NULL
 training$X <- NULL
 
 
-# nombre de las películas
+# nombre de las pelÃ­culas
 f <- df.movie$title[df.movie$id  %in% training$movie]
 
 # carga matriz de recomendaciones ya calculada en formato realratingmatrix
@@ -57,7 +57,7 @@ salida <- read.csv("data/salida.csv")
 # carga dataframe c que contiene 10 recomendaciones por usuario
 load("data/recomendacion10.RData")
 
-# df.train sin nombre de película
+# df.train sin nombre de pelÃ­cula
 df.train  <- acast(training, user ~ movie)
 
 
@@ -76,7 +76,9 @@ runApp(list(
       selectInput("dataset", "Choose a dataset:", 
                   choices = c("movies", "users","training","prediction","comparison")),
       selectInput("user", "Choose an user:", 
-                  choices = c(unique(training$user)))
+                  choices = unique(training$user)[1])
+      #numericInput("obs", "Number of observations to view:", 10)
+      
     ),
     
     # Show a summary of the dataset and an HTML table with the requested
@@ -111,7 +113,7 @@ runApp(list(
     })
     userInput <- reactive({
       switch(input$user,
-             c(unique(training$user)))
+             unique(training$user)[1])
     })    
     
     # Generate a summary of the dataset
@@ -122,14 +124,25 @@ runApp(list(
     })
     
     output$mytable2 <- renderTable({
-      mydata = get(input$user)
-      #selectInput('columns2', 'Columns', names(mydata))
-      #df.user[mydata,]
-      df.user[as.integer(df.user$id == mydata),]
+      df.user[userInput(),]
 
     },
     caption = "User's Info")
-
+    
+    
+    output$mytable3 <- renderTable({
+      head(rating[rating$user == userInput(),-4], 10)
+      
+    },
+    caption = "10 User's movie ratings"
+    )    
+    
+    output$mytable4 <- renderTable({
+      head(c[c$user == userInput(),], 10)
+      
+    },
+    caption = "10 User's movie recomendations"
+    ) 
     
     
     }

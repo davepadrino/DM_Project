@@ -26,3 +26,33 @@ shinyUI(pageWithSidebar(
     tableOutput("view")
   )
 ))
+
+
+
+
+
+
+output$head <- renderPrint({
+  dataset <- datasetInput()
+  head(dataset)
+})
+
+
+output$mytable1 = renderDataTable({
+  library(ggplot2)
+  diamonds[, input$show_vars, drop = FALSE]
+})
+
+
+output$mytable1 <- renderTable({
+  head(datasetInput(), n = 10)
+})
+
+
+output$mytable2 <- renderTable({
+  head(userInput())
+})
+
+
+
+c(unique(training$user))
