@@ -192,13 +192,17 @@ df.train  &lt;- acast(training, user ~ movie)
 # Obtener los nombres de las peliculas
 f &lt;- df.movie$title[df.movie$id  %in% training$movie]</code></pre>
 </div>
-<div id="se-convierte-la-matriz-en-un-tipo-especial-de-matriz-llamada-real-rating-matrix-especial-de-la-biblioteca-recommenderlab-una-vez-en-ese-estado-o-tipo-de-dato-se-pasa-a-realizar-el-proceso-de-recomendacion" class="section level2">
-<h2>Se convierte la matriz en un tipo especial de matriz llamada “Real Rating Matrix” Especial de la biblioteca Recommenderlab, una vez en ese estado o tipo de dato se pasa a realizar el proceso de recomendacion</h2>
+<div id="se-convierte-la-matriz-en-un-tipo-especial-de-matriz-llamada-rating-matrix-que-extiende-de-la-clase-ratingmatrix-una-vez-en-ese-estado-o-tipo-de-dato-se-pasa-a-realizar-el-proceso-de-recomendacion" class="section level2">
+<h2>Se convierte la matriz en un tipo especial de matriz llamada “Rating Matrix” que extiende de la clase <em>RatingMatrix</em>, una vez en ese estado o tipo de dato se pasa a realizar el proceso de recomendacion</h2>
 <pre class="r"><code>train.RatingMatrix &lt;- as(as.matrix(df.train), &quot;realRatingMatrix&quot;)
 df.train &lt;- sapply(data.frame(df.train), as.numeric)</code></pre>
 </div>
 <div id="proceso-de-recomendacion-comando-recommender-basado-en-usuario" class="section level2">
 <h2>Proceso de recomendacion (Comando <strong>Recommender</strong>) <strong>basado en usuario</strong></h2>
+<ul>
+<li><em>method</em>: Es el metodo usado para realizar la recomendacion entre UBCF, IBCF y POPULAR</li>
+<li><em>param</em>: Lista de parametros adicionales, en este caso se selecciono Z-Score como metodo de normalizacion, Jaccard como medida de similaridad y tanto <em>nn</em> como <em>minRating</em> son los elementos que indican entre que valores debe realizarse la recomendacion. Estos valores debe ser dados en el dataset.</li>
+</ul>
 <pre class="r"><code>rec=Recommender(train.RatingMatrix[1:nrow(train.RatingMatrix)],method=&quot;UBCF&quot;,
                 param=list(normalize = &quot;Z-score&quot;,method=&quot;Jaccard&quot;,nn=5, minRating=1))</code></pre>
 </div>
@@ -215,8 +219,8 @@ a &lt;- as.data.frame(a)
 rownames(df.train) &lt;- unique(training$user)
 rownames(a) &lt;- unique(training$user)</code></pre>
 </div>
-<div id="creacion-y-apliciacion-de-funcion-especial-para-generar-datos-de-salida." class="section level2">
-<h2>Creacion y apliciacion de funcion especial para generar datos de salida.</h2>
+<div id="creacion-y-aplicacion-de-funcion-especial-para-generar-datos-de-salida." class="section level2">
+<h2>Creacion y aplicacion de funcion especial para generar datos de salida.</h2>
 <pre class="r"><code>t3 &lt;- as.factor(training$movie)
 testing &lt;- testing[testing$movie %in% levels(t3), ]
 
