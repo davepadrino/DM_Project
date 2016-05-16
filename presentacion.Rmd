@@ -92,7 +92,7 @@ df.train <- sapply(data.frame(df.train), as.numeric)
 
 ## Proceso de recomendacion (Comando __Recommender__) __basado en usuario__
 - _method_: Es el metodo usado para realizar la recomendacion entre UBCF, IBCF y POPULAR
-- _param_: Lista de parametros adicionales, en este caso se selecciono Z-Score como metodo de normalizacion, Jaccard como medida de similaridad y tanto _nn_ como _minRating_ son los elementos que indican entre que valores debe realizarse la recomendacion. Estos valores debe ser dados en el dataset.
+- _param_: Lista de parametros adicionales, en este caso se selecciono Z-Score como metodo de normalizacion, Jaccard como medida de similaridad. Mientras tanto _nn_ es el numero de usuarios en base al cual se realizaran las recomendaciones y _minRating_ es el menor valor a partir del cual se realizaran las prediccioes.
 ```{r, eval=FALSE}
 rec=Recommender(train.RatingMatrix[1:nrow(train.RatingMatrix)],method="UBCF",
                 param=list(normalize = "Z-score",method="Jaccard",nn=5, minRating=1))
