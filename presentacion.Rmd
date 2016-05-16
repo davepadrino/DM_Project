@@ -1,0 +1,172 @@
+---
+title: "Recomendador de Peliculas"
+author: "Figueira, Flores, Padrino"
+date: "May 16, 2016"
+output: html_document
+---
+# Introduccion
+El grupo de desarrollo GroupLens busca desarrollar un recomendador de peliculas basado en filtrado colaborativo llamado Movielens, el cual basicamene espera que funcione de acuerdo a  1,000,209 valoraciones o ratings de 6040 usuarios de MovieLens hacia 3900 peliculas. Este conjunto de datos es del añno 2000 aproximadamente.
+El sitio web Kaggle provee tres archivos en base a los cuales se tomaran los datos (users.dat, ratings.for.kaggle_comp.csv y movies.dat) y un archivo en base al que se realizaran las lecturas (sample.submission.csv) en donde se puede observar cual usuario valoro a cual pelicula.
+
+# Presentacion
+
+## Carga de Bibliotecas
+
+```{r, eval=FALSE}
+library("stringr")
+library("reshape2")
+library("recommenderlab")
+library("shiny")
+```
+
+## Carga de los archivos importantes
+```{r, eval=FALSE}
+train <- read.csv("data/ratings_for_kaggle_comp.csv")
+movies <- readLines("data/movies.dat")
+usr <- readLines("data/users.dat")
+```
+
+## Preprocesamiento
+Se realiza un preprocesamiento en base a los archivos _user.csv_ y _movies.csv_
+```{r, eval=FALSE}
+# Creating a DF with user's Info
+usr2 <- unlist(strsplit(usr,"::"))
+id <- usr2[seq(from = 1, to = length(usr2), by =5 )]
+df.user <- as.data.frame(id)
+df.user$sexo <- usr2[seq(from = 2, to = length(usr2), by =5 )]
+df.user$age <- usr2[seq(from = 3, to = length(usr2), by =5 )]
+df.user$ocupacion <- usr2[seq(from = 4, to = length(usr2), by =5 )]
+df.user$zip.code <- usr2[seq(from = 5, to = length(usr2), by =5 )]
+
+# MovieID::Title::Genres
+mov <- unlist(strsplit(movies,"::"))
+id <- mov[seq(from = 1, to = length(mov), by =3 )]
+df.movie <- as.data.frame(id)
+df.movie$title <- mov[seq(from = 2, to = length(mov), by =3 )]
+```
+
+
+## Creacion de archivos de entrenamiento y pruebas
+```{r, eval=FALSE}
+################################### 
+##---create training & testing---##
+###################################
+ training <- train[0,]
+ testing <- train[0,]
+ for(j in unique(train$user)){
+   aux <- train[train$user == j, ]
+   sampl <-  sample(nrow(aux), floor(nrow(aux) * 0.70))
+   aux.training <- aux[sampl, ]
+   aux.testing  <- aux[-sampl, ]
+   training <- rbind(training, aux.training )
+   testing <- rbind(testing,aux.testing)
+ }
+ write.csv(training,file="data/training.csv")
+ write.csv(testing,file="data/testing.csv")
+```
+
+
+
+## Carga de los archivos recien creados
+```{r, eval=FALSE}
+training <- read.csv("data/training.csv")
+testing <- read.csv("data/testing.csv")
+```
+
+
+## Generacion de Matriz Dispersa
+```{r, eval=FALSE}
+testing$X <- NULL
+training$X <- NULL
+# esta es la matriz dispersa que usaremos 
+df.train  <- acast(training, user ~ movie)
+# Obtener los nombres de las peliculas
+f <- df.movie$title[df.movie$id  %in% training$movie]
+```
+
+## Se convierte la matriz en un tipo especial de matriz llamada "Real Rating Matrix" Especial de la biblioteca Recommenderlab, una vez en ese estado o tipo de dato se pasa a realizar el proceso de recomendacion
+```{r, eval=FALSE}
+train.RatingMatrix <- as(as.matrix(df.train), "realRatingMatrix")
+df.train <- sapply(data.frame(df.train), as.numeric)
+```
+
+## Proceso de recomendacion (Comando __Recommender__) __basado en usuario__
+```{r, eval=FALSE}
+rec=Recommender(train.RatingMatrix[1:nrow(train.RatingMatrix)],method="UBCF",
+                param=list(normalize = "Z-score",method="Jaccard",nn=5, minRating=1))
+```
+
+## Realizacion de las predicciones y por su lenta ejecucion, se almacena el resultado en un archivo .Rdata para usos posteriores
+```{r, eval=FALSE}
+recom <- predict(rec, train.RatingMatrix[1:nrow(train.RatingMatrix)], type="ratings")
+save(recom, file="recom.RData")
+load("data/recom.RData")
+
+```
+
+## Lectura del elemento anterior como Matriz y asignacion de nombres a filas
+```{r, eval=FALSE}
+a <- as(recom,"matrix")
+a <- as.data.frame(a)
+rownames(df.train) <- unique(training$user)
+rownames(a) <- unique(training$user)
+```
+
+## Creacion y apliciacion de funcion especial para generar datos de salida.
+```{r, eval=FALSE}
+t3 <- as.factor(training$movie)
+testing <- testing[testing$movie %in% levels(t3), ]
+
+asignar <- function(x){
+  fila <- as.character(x[1])
+  columna  <-  paste("X",x[2],sep="")
+  rating <- a[fila,columna]
+  if(!is.null(rating)){
+    x[3] <- rating
+  }
+  return(x)
+}
+
+salida <- apply(testing[1:3],1,asignar)
+salida <- t(salida)
+salida <- as.data.frame(salida)
+salida$real <- testing$rating
+write.csv(salida,"data/salida.csv")
+```
+
+## Lectura de archivo de salida para generacion de recomendaciones. Se eligieron las 10 peliculas mejores votadas segun la prediccion para realizar la recomendacion a determinado usuario.
+```{r, eval=FALSE}
+g <- read.csv("data/salida.csv")
+
+colnames(a) <- f
+b <- t(a)
+class(b)
+b <- as.data.frame(b)
+c <- b[1:10,]
+
+
+for(j in colnamesb){
+  b <- b[order(b[ ,j], decreasing = T), ]
+  peliculas <- rownames(b[1:10,])
+  c[ ,j] <- peliculas 
+}
+
+nombrecol <- c(1:10)
+for(i in 1:10){
+  nombrecol[i] <- paste("peli",i,sep="")
+}
+
+nombrecol
+c <- t(c)
+colnames(c) <- nombrecol
+
+save(c, file="data/recomendacion10.RData")
+```
+
+
+
+
+
+
+
+
