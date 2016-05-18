@@ -64,11 +64,11 @@ load("data/recomendacion10.RData")
 
 
 ##nuevo
-salida$real <- NULL
 
+salida$X <- NULL
 t3 <- as.factor(training$movie)
 testing <- testing[testing$movie %in% levels(t3), ]
-df.salida  <- acast(salida, user ~ movie)
+df.salida  <- acast(salida[,1:3], user ~ movie)
 df.test  <- acast(testing, user ~ movie)
 
 
@@ -77,5 +77,23 @@ test.RatingMatrix <- as(df.test, "realRatingMatrix")
 
 
 error <- calcPredictionAccuracy(salida.RatingMatrix, test.RatingMatrix)
+
+# Root Mean Squared Error (RMSE)
+# (1/n) * sqrt(sum(salida$real - salida$rating) ^2)
+RMSE <- error[1]
+print(RMSE)
+
+# mean square error
+# (1/n) * sum(salida$real - salida$rating) ^2 
+MSE <- error[2]
+print(MSE)
+
+
+table(round(salida$rating),salida$real )
+
+
+
+
+
 
 

@@ -2,7 +2,7 @@
 Sys.setlocale(locale="C")
 # install.packages("recommenderlab")
 # install.packages("shiny")
-library("stringr")
+#library("stringr")
 library("reshape2")
 library("recommenderlab")
 library("shiny")
@@ -142,6 +142,8 @@ c <- t(c)
 colnames(c) <- nombrecol
 
 save(c, file="data/recomendacion10.RData")
+
+
 
 
 # ####################################

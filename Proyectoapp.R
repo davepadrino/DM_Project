@@ -1,5 +1,4 @@
 Sys.setlocale(locale="C")
-library("stringr")
 library("reshape2")
 library("recommenderlab")
 library("shiny")
