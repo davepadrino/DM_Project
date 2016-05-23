@@ -9,6 +9,32 @@ training <- read.csv("data/training.csv")
 testing <- read.csv("data/testing.csv")
 
 
+
+
+## Histogramas
+
+hist(training$rating)
+
+usuarios <- as.data.frame(unique(training$user))
+colnames(usuarios) <- "user"
+usuarios$peliculas <- rep(0,length(usuarios$user))
+for(i in 1:length(usuarios$user)){
+  usuario <- usuarios$user[i]
+  usuarios$peliculas[i] <- length(training$user[training$user == usuario])
+}
+
+# cambiando el parámetro by se cambia los breaks..
+hist(x = usuarios$peliculas,
+     breaks = seq(from = 0 , to = 1000 , by = 20),
+     main = "Histograma de # de peliculas votadas",
+     xlab = "# de movies"
+)
+
+
+
+
+
+
 # Creating a DF with user's Info
 usr2 <- unlist(strsplit(usr,"::"))
 id <- usr2[seq(from = 1, to = length(usr2), by =5 )]
@@ -41,6 +67,8 @@ training$X <- NULL
 # nombre de las pelmculas
 f <- df.movie$title[df.movie$id  %in% training$movie]
 
+
+
 # carga matriz de recomendaciones ya calculada en formato realratingmatrix
 load("data/recom.RData")
 
@@ -48,6 +76,8 @@ load("data/recom.RData")
 a <- as(recom,"matrix")
 a <- as.data.frame(a)
 colnames(a) <- f
+
+
 
 # df de salida esperada en kaggle que se puede comparar con el testing 
 salida <- read.csv("data/salida.csv")
