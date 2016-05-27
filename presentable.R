@@ -1,5 +1,5 @@
 Sys.setlocale(locale="C")
-library("stringr")
+setwd("C:/Users/Alex/Documents/R/DM_Project")
 library("reshape2")
 library("recommenderlab")
 library("shiny")
